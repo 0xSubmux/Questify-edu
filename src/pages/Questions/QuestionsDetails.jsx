@@ -211,24 +211,28 @@
 
 
 import React, { useState } from "react";
-import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
-import copy from "copy-to-clipboard";
-import toast from 'react-hot-toast';
-import HTMLReactParser from 'html-react-parser';
+import { AiOutlinePlus } from "react-icons/ai";
+import { BiSolidDownvote, BiSolidUpvote } from "react-icons/bi";
+import { RiShareForwardFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import upvote from "../../assets/sort-up.svg";
-import downvote from "../../assets/sort-down.svg";
-import Avatar from "../../components/Avatar/Avatar";
-import DisplayAnswer from "./DisplayAnswer";
+import copy from "copy-to-clipboard";
+import HTMLReactParser from 'html-react-parser';
+import moment from "moment";
+import toast from 'react-hot-toast';
+
+// import upvote from "../../assets/sort-up.svg";
+// import downvote from "../../assets/sort-down.svg";
 import {
-  postAnswer,
   deleteQuestion,
+  postAnswer,
   voteQuestion
 } from "../../actions/question";
+import Avatar from "../../components/Avatar/Avatar";
 import Editor from "../../components/Editor/Editor";
 import Loader from "../../components/Loader/Loader";
+import DisplayAnswer from "./DisplayAnswer";
 
 const QuestionsDetails = () => {
   const { id } = useParams();
@@ -236,6 +240,13 @@ const QuestionsDetails = () => {
   const User = useSelector((state) => state.currentUserReducer);
 
   const [answer, setAnswer] = useState("");
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleSection = () => {
+    setIsVisible((prev) => !prev);
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -279,7 +290,7 @@ const QuestionsDetails = () => {
       return toast.error("Please Login or Signup to upvote");
     }
     dispatch(voteQuestion(id, 'upVote', User.result._id));
-    toast.success('Upvoted');
+    toast.success('Upvote');
   };
 
   const handleDownVote = () => {
@@ -287,7 +298,7 @@ const QuestionsDetails = () => {
       return toast.error("Please Login or Signup to downvote");
     }
     dispatch(voteQuestion(id, 'downVote', User.result._id));
-    toast.success('Downvoted');
+    toast.success('Downvote');
   };
 
   return (
@@ -303,28 +314,26 @@ const QuestionsDetails = () => {
                 <section className="p-6 bg-white border border-gray-300 rounded-lg shadow-md">
                   <h1 className="text-2xl font-semibold text-gray-800">{question.questionTitle}</h1>
                   <div className="flex gap-4 mt-4">
-                    <div className="flex flex-col items-center">
-                      <img
-                        src={upvote}
-                        alt=""
-                        className="cursor-pointer hover:text-blue-500 w-6"
-                        onClick={handleUpVote}
-                      />
-                      <p className="font-bold text-gray-700">{question.upVote.length - question.downVote.length}</p>
-                      <img
-                        src={downvote}
-                        alt=""
-                        className="cursor-pointer hover:text-red-500 w-6"
-                        onClick={handleDownVote}
-                      />
+                    <div className="flex flex-row items-center">
                     </div>
                     <div className="w-full">
                       <p className="text-gray-700">{HTMLReactParser(question.questionBody)}</p>
                       <div className="flex flex-wrap gap-2 mt-2">
+                        <BiSolidUpvote
+                          className="cursor-pointer hover:text-blue-500 w-5 h-5"
+                          onClick={handleUpVote}
+                        />
+                        <p className="font-bold text-gray-700">
+                          {question.upVote.length - question.downVote.length}
+                        </p>
+                        <BiSolidDownvote
+                          className="cursor-pointer hover:text-red-500 w-5 h-5"
+                          onClick={handleDownVote}
+                        />
                         {question.questionTags.map((tag) => (
                           <span
                             key={tag}
-                            className="px-3 py-1 bg-gray-200 text-gray-700 text-sm border border-gray-300 rounded"
+                            className="px-3 py-1 bg-gray-700 text-gray-200 text-sm border border-gray-300 rounded-3xl"
                           >
                             {tag}
                           </span>
@@ -332,8 +341,9 @@ const QuestionsDetails = () => {
                       </div>
                       <div className="flex justify-between items-center mt-4">
                         <div className="flex gap-4">
-                          <button className="text-blue-500 hover:underline" onClick={handleShare}>
+                          <button className="text-blue-500 hover:underline  inline-flex items-center" onClick={handleShare}>
                             Share
+                            <RiShareForwardFill />
                           </button>
                           {User?.result._id === question.userId && (
                             <button className="text-red-500 hover:underline" onClick={handleDelete}>
@@ -354,6 +364,47 @@ const QuestionsDetails = () => {
                     </div>
                   </div>
                 </section>
+                <section className="mt-6">
+                  <button
+                    onClick={toggleSection}
+                    className="text-sm font-semibold mb-4 px-4 py-2 bg-white text-black-700 hover:bg-gray-100 border-slate-300 border rounded-lg inline-flex items-center  shadow-sm"
+                  >
+                    <span className="flex items-start gap-2">
+                      <span className="font-semibold">
+                        <AiOutlinePlus style={{ fontSize: '1.2rem' }} />
+                      </span>
+                      {isVisible ? "Not to Reply" : "Write an Reply"}
+                    </span>
+                  </button>
+                  {isVisible && (
+                    <section className="mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow-md">
+                      <h3 className="text-lg font-semibold">Your Answer</h3>
+                      <form
+                        onSubmit={(e) => handlePostAns(e, question.answer.length)}
+                        className="mt-4"
+                      >
+                        <Editor value={answer} onChange={setAnswer} />
+                        <input
+                          type="submit"
+                          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                          value="Post Your Answer"
+                        />
+                      </form>
+                      <p className="text-sm text-gray-600 mt-4">
+                        Browse other questions tagged
+                        {question.questionTags.map((tag) => (
+                          <Link to="/Tags" key={tag} className="ml-1 text-blue-500 hover:underline">
+                            {tag}
+                          </Link>
+                        ))}{" "}
+                        or{" "}
+                        <Link to="/AskQuestion" className="text-blue-500 hover:underline">
+                          ask your own question.
+                        </Link>
+                      </p>
+                    </section>
+                  )}
+                </section>
                 {question.noOfAnswers !== 0 && (
                   <section className="mt-6">
                     <h3 className="text-xl font-semibold text-gray-800">{question.noOfAnswers} Answers</h3>
@@ -364,32 +415,6 @@ const QuestionsDetails = () => {
                     />
                   </section>
                 )}
-                <section className="mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow-md">
-                  <h3 className="text-lg font-semibold">Your Answer</h3>
-                  <form
-                    onSubmit={(e) => handlePostAns(e, question.answer.length)}
-                    className="mt-4"
-                  >
-                    <Editor value={answer} onChange={setAnswer} />
-                    <input
-                      type="submit"
-                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      value="Post Your Answer"
-                    />
-                  </form>
-                  <p className="text-sm text-gray-600 mt-4">
-                    Browse other questions tagged
-                    {question.questionTags.map((tag) => (
-                      <Link to="/Tags" key={tag} className="ml-1 text-blue-500 hover:underline">
-                        {tag}
-                      </Link>
-                    ))}{" "}
-                    or{" "}
-                    <Link to="/AskQuestion" className="text-blue-500 hover:underline">
-                      ask your own question.
-                    </Link>
-                  </p>
-                </section>
               </div>
             ))}
         </>
