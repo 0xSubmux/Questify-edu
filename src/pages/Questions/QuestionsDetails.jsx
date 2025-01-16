@@ -1,15 +1,225 @@
+// import React, { useState } from "react";
+// import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+// import moment from "moment";
+// import copy from "copy-to-clipboard";
+// import toast from 'react-hot-toast'
+// import HTMLReactParser from 'html-react-parser'
+
+
+// import upvote from "../../assets/sort-up.svg";
+// import downvote from "../../assets/sort-down.svg";
+// import "./Questions.css";
+// import Avatar from "../../components/Avatar/Avatar";
+// import DisplayAnswer from "./DisplayAnswer";
+// import {
+//   postAnswer,
+//   deleteQuestion,
+//   voteQuestion
+// } from "../../actions/question";
+// import Editor from "../../components/Editor/Editor";
+// import Loader from "../../components/Loader/Loader";
+
+
+// const QuestionsDetails = () => {
+//   const { id } = useParams();
+//   const questionsList = useSelector((state) => state.questionsReducer);
+//   const User = useSelector((state) => state.currentUserReducer);
+
+//   const [answer, setAnswer] = useState("");
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+//   const location = useLocation();
+//   const url = "https://stack-overflow-clone-gautam.vercel.app/";
+
+//   const handlePostAns = (e, answerLength) => {
+//     e.preventDefault();
+//     if (!User) {
+//       toast.error("Please Login or Signup to answer a question");
+//       navigate("/Auth");
+//     } else {
+//       if (answer === "") {
+//         toast.error("Enter an answer before submitting");
+//       } else {
+//         dispatch(
+//           postAnswer({
+//             id,
+//             noOfAnswers: answerLength + 1,
+//             answerBody: answer,
+//             userAnswered: User.result.name,
+//             userId: User.result._id
+//           })
+//         );
+//         setAnswer("");
+//       }
+//     }
+//   };
+
+//   const handleShare = () => {
+//     copy(url + location.pathname);
+//     toast.success('URL copied to clipboard');
+//   };
+
+//   const handleDelete = () => {
+//     dispatch(deleteQuestion(id, navigate));
+//     toast.success('Question deleted')
+//   };
+
+//   const handleUpVote = () => {
+//     if (!User) {
+//       return toast.error("Please Login or Signup to upvote");
+//     }
+//     dispatch(voteQuestion(id, 'upVote', User.result._id))
+//     toast.success('Upvoted')
+//   };
+
+//   const handleDownVote = () => {
+//     if (!User) {
+//       return toast.error("Please Login or Signup to downvote");
+//     }
+//     dispatch(voteQuestion(id, 'downVote', User.result._id))
+//     toast.success('Downvoted')
+//   };
+
+//   return (
+//     <div className="question-details-page">
+//       {questionsList.data === null ? (
+//         <Loader />
+//       ) : (
+//         <>
+//           {questionsList.data
+//             .filter((question) => question._id === id)
+//             .map((question) => (
+//               <div key={question._id}>
+//                 <section className="question-details-container">
+//                   <h1>{question.questionTitle}</h1>
+//                   <div className="question-details-container-2">
+//                     <div className="question-votes">
+//                       <img
+//                         src={upvote}
+//                         alt=""
+//                         width="18"
+//                         className="votes-icon"
+//                         onClick={handleUpVote}
+//                       />
+//                       <p>{question.upVote.length - question.downVote.length}</p>
+//                       <img
+//                         src={downvote}
+//                         alt=""
+//                         width="18"
+//                         className="votes-icon"
+//                         onClick={handleDownVote}
+//                       />
+//                     </div>
+//                     <div style={{ width: "100%" }}>
+//                       <p className="question-body">{HTMLReactParser(question.questionBody)}</p>
+//                       <div className="question-details-tags">
+//                         {question.questionTags.map((tag) => (
+//                           <div key={tag}>{tag}</div>
+//                         ))}
+//                       </div>
+//                       <div className="question-actions-user">
+//                         <div>
+//                           <button type="button" onClick={handleShare}>
+//                             Share
+//                           </button>
+//                           {User?.result._id === question.userId && (
+//                             <button type="button" onClick={handleDelete}>
+//                               Delete
+//                             </button>
+//                           )}
+//                         </div>
+//                         <div>
+//                           <p>asked {moment(question.askedOn).fromNow()}</p>
+//                           <Link
+//                             to={`/Users/${question.userId}`}
+//                             className="user-link"
+//                             style={{ color: "#0086d8" }}
+//                           >
+//                             <Avatar
+//                               backgroundColor="orange"
+//                               px="8px"
+//                               py="5px"
+//                               borderRadius="4px"
+//                             >
+//                               {question.userPosted.charAt(0).toUpperCase()}
+//                             </Avatar>
+//                             <div>{question.userPosted}</div>
+//                           </Link>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </section>
+//                 {question.noOfAnswers !== 0 && (
+//                   <section>
+//                     <h3>{question.noOfAnswers} Answers</h3>
+//                     <DisplayAnswer
+//                       key={question._id}
+//                       question={question}
+//                       handleShare={handleShare}
+//                     />
+//                   </section>
+//                 )}
+//                 <section className="post-ans-container">
+//                   <h3>Your Answer</h3>
+//                   <form
+//                     onSubmit={(e) => {
+//                       handlePostAns(e, question.answer.length);
+//                     }}
+//                   >
+//                     <div>
+//                       <Editor
+//                         value={answer}
+//                         onChange={setAnswer}
+//                       />
+//                     </div>
+//                     <br />
+//                     <input
+//                       type="submit"
+//                       className="post-ans-btn"
+//                       value="Post Your Answer"
+//                     />
+//                   </form>
+//                   <p>
+//                     Browse other Question tagged
+//                     {question.questionTags.map((tag) => (
+//                       <Link to="/Tags" key={tag} className="ans-tags">
+//                         {" "}
+//                         {tag}{" "}
+//                       </Link>
+//                     ))}{" "}
+//                     or
+//                     <Link
+//                       to="/AskQuestion"
+//                       style={{ textDecoration: "none", color: "#009dff" }}
+//                     >
+//                       {" "}
+//                       ask your own question.
+//                     </Link>
+//                   </p>
+//                 </section>
+//               </div>
+//             ))}
+//         </>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default QuestionsDetails;
+
+
 import React, { useState } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import copy from "copy-to-clipboard";
-import toast from 'react-hot-toast'
-import HTMLReactParser from 'html-react-parser'
-
+import toast from 'react-hot-toast';
+import HTMLReactParser from 'html-react-parser';
 
 import upvote from "../../assets/sort-up.svg";
 import downvote from "../../assets/sort-down.svg";
-import "./Questions.css";
 import Avatar from "../../components/Avatar/Avatar";
 import DisplayAnswer from "./DisplayAnswer";
 import {
@@ -19,7 +229,6 @@ import {
 } from "../../actions/question";
 import Editor from "../../components/Editor/Editor";
 import Loader from "../../components/Loader/Loader";
-
 
 const QuestionsDetails = () => {
   const { id } = useParams();
@@ -62,27 +271,27 @@ const QuestionsDetails = () => {
 
   const handleDelete = () => {
     dispatch(deleteQuestion(id, navigate));
-    toast.success('Question deleted')
+    toast.success('Question deleted');
   };
 
   const handleUpVote = () => {
     if (!User) {
       return toast.error("Please Login or Signup to upvote");
     }
-    dispatch(voteQuestion(id, 'upVote', User.result._id))
-    toast.success('Upvoted')
+    dispatch(voteQuestion(id, 'upVote', User.result._id));
+    toast.success('Upvoted');
   };
 
   const handleDownVote = () => {
     if (!User) {
       return toast.error("Please Login or Signup to downvote");
     }
-    dispatch(voteQuestion(id, 'downVote', User.result._id))
-    toast.success('Downvoted')
+    dispatch(voteQuestion(id, 'downVote', User.result._id));
+    toast.success('Downvoted');
   };
 
   return (
-    <div className="question-details-page">
+    <div className="p-6 bg-gray-50 min-h-screen">
       {questionsList.data === null ? (
         <Loader />
       ) : (
@@ -91,60 +300,54 @@ const QuestionsDetails = () => {
             .filter((question) => question._id === id)
             .map((question) => (
               <div key={question._id}>
-                <section className="question-details-container">
-                  <h1>{question.questionTitle}</h1>
-                  <div className="question-details-container-2">
-                    <div className="question-votes">
+                <section className="p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+                  <h1 className="text-2xl font-semibold text-gray-800">{question.questionTitle}</h1>
+                  <div className="flex gap-4 mt-4">
+                    <div className="flex flex-col items-center">
                       <img
                         src={upvote}
                         alt=""
-                        width="18"
-                        className="votes-icon"
+                        className="cursor-pointer hover:text-blue-500 w-6"
                         onClick={handleUpVote}
                       />
-                      <p>{question.upVote.length - question.downVote.length}</p>
+                      <p className="font-bold text-gray-700">{question.upVote.length - question.downVote.length}</p>
                       <img
                         src={downvote}
                         alt=""
-                        width="18"
-                        className="votes-icon"
+                        className="cursor-pointer hover:text-red-500 w-6"
                         onClick={handleDownVote}
                       />
                     </div>
-                    <div style={{ width: "100%" }}>
-                      <p className="question-body">{HTMLReactParser(question.questionBody)}</p>
-                      <div className="question-details-tags">
+                    <div className="w-full">
+                      <p className="text-gray-700">{HTMLReactParser(question.questionBody)}</p>
+                      <div className="flex flex-wrap gap-2 mt-2">
                         {question.questionTags.map((tag) => (
-                          <div key={tag}>{tag}</div>
+                          <span
+                            key={tag}
+                            className="px-3 py-1 bg-gray-200 text-gray-700 text-sm border border-gray-300 rounded"
+                          >
+                            {tag}
+                          </span>
                         ))}
                       </div>
-                      <div className="question-actions-user">
-                        <div>
-                          <button type="button" onClick={handleShare}>
+                      <div className="flex justify-between items-center mt-4">
+                        <div className="flex gap-4">
+                          <button className="text-blue-500 hover:underline" onClick={handleShare}>
                             Share
                           </button>
                           {User?.result._id === question.userId && (
-                            <button type="button" onClick={handleDelete}>
+                            <button className="text-red-500 hover:underline" onClick={handleDelete}>
                               Delete
                             </button>
                           )}
                         </div>
-                        <div>
-                          <p>asked {moment(question.askedOn).fromNow()}</p>
-                          <Link
-                            to={`/Users/${question.userId}`}
-                            className="user-link"
-                            style={{ color: "#0086d8" }}
-                          >
-                            <Avatar
-                              backgroundColor="orange"
-                              px="8px"
-                              py="5px"
-                              borderRadius="4px"
-                            >
+                        <div className="flex items-center gap-2">
+                          <p className="text-gray-500 text-sm">asked {moment(question.askedOn).fromNow()}</p>
+                          <Link to={`/Users/${question.userId}`} className="flex items-center gap-2 text-blue-500">
+                            <Avatar backgroundColor="orange" px="8px" py="5px" borderRadius="4px">
                               {question.userPosted.charAt(0).toUpperCase()}
                             </Avatar>
-                            <div>{question.userPosted}</div>
+                            <span className="font-medium">{question.userPosted}</span>
                           </Link>
                         </div>
                       </div>
@@ -152,8 +355,8 @@ const QuestionsDetails = () => {
                   </div>
                 </section>
                 {question.noOfAnswers !== 0 && (
-                  <section>
-                    <h3>{question.noOfAnswers} Answers</h3>
+                  <section className="mt-6">
+                    <h3 className="text-xl font-semibold text-gray-800">{question.noOfAnswers} Answers</h3>
                     <DisplayAnswer
                       key={question._id}
                       question={question}
@@ -161,40 +364,28 @@ const QuestionsDetails = () => {
                     />
                   </section>
                 )}
-                <section className="post-ans-container">
-                  <h3>Your Answer</h3>
+                <section className="mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow-md">
+                  <h3 className="text-lg font-semibold">Your Answer</h3>
                   <form
-                    onSubmit={(e) => {
-                      handlePostAns(e, question.answer.length);
-                    }}
+                    onSubmit={(e) => handlePostAns(e, question.answer.length)}
+                    className="mt-4"
                   >
-                    <div>
-                      <Editor
-                        value={answer}
-                        onChange={setAnswer}
-                      />
-                    </div>
-                    <br />
+                    <Editor value={answer} onChange={setAnswer} />
                     <input
                       type="submit"
-                      className="post-ans-btn"
+                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                       value="Post Your Answer"
                     />
                   </form>
-                  <p>
-                    Browse other Question tagged
+                  <p className="text-sm text-gray-600 mt-4">
+                    Browse other questions tagged
                     {question.questionTags.map((tag) => (
-                      <Link to="/Tags" key={tag} className="ans-tags">
-                        {" "}
-                        {tag}{" "}
+                      <Link to="/Tags" key={tag} className="ml-1 text-blue-500 hover:underline">
+                        {tag}
                       </Link>
                     ))}{" "}
-                    or
-                    <Link
-                      to="/AskQuestion"
-                      style={{ textDecoration: "none", color: "#009dff" }}
-                    >
-                      {" "}
+                    or{" "}
+                    <Link to="/AskQuestion" className="text-blue-500 hover:underline">
                       ask your own question.
                     </Link>
                   </p>
