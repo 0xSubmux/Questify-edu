@@ -2,7 +2,7 @@ import React from 'react'
 import '../../App.css'
 import HomeMainbar from '../../components/HomeMainbar/HomeMainbar'
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
-import RightSidebar from '../../components/RightSidebar/RightSidebar'
+// import RightSidebar from '../../components/RightSidebar/RightSidebar'
 
 const Questions = () => {
   return (
