@@ -211,7 +211,7 @@
 
 
 import React, { useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BiSolidDownvote, BiSolidUpvote } from "react-icons/bi";
 import { RiShareForwardFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -371,7 +371,8 @@ const QuestionsDetails = () => {
                   >
                     <span className="flex items-start gap-2">
                       <span className="font-semibold">
-                        <AiOutlinePlus style={{ fontSize: '1.2rem' }} />
+                        {isVisible ? < AiOutlineMinus style={{ fontSize: '1.2rem' }} /> : <AiOutlinePlus style={{ fontSize: '1.2rem' }} />}
+                        {/* <AiOutlinePlus style={{ fontSize: '1.2rem' }} /> */}
                       </span>
                       {isVisible ? "Not to Reply" : "Write an Reply"}
                     </span>
