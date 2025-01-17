@@ -7,10 +7,10 @@ import QuestionsDetails from "./QuestionsDetails";
 const DisplayQuestion = () => {
   return (
     <div className="home-container-1">
-      <LeftSidebar  />
+      <LeftSidebar />
       <div className="home-container-2">
         <QuestionsDetails />
-        <RightSidebar />
+        {/* <RightSidebar /> */}
       </div>
     </div>
   );
