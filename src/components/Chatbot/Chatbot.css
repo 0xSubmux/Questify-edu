@@ -90,6 +90,7 @@
 .chatbot-form input:focus {
   outline: none;
 }
+
 .chatbot-form input::placeholder {
   color: black;
 }
