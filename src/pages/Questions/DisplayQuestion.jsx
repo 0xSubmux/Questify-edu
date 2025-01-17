@@ -1,16 +1,16 @@
 import React from "react";
 import LeftSidebar from "../../components/LeftSidebar/LeftSidebar";
-import RightSidebar from "../../components/RightSidebar/RightSidebar";
 import QuestionsDetails from "./QuestionsDetails";
+// import RightSidebar from "../../components/RightSidebar/RightSidebar";
 
 
 const DisplayQuestion = () => {
   return (
     <div className="home-container-1">
-      <LeftSidebar  />
+      <LeftSidebar />
       <div className="home-container-2">
         <QuestionsDetails />
-        <RightSidebar />
+        {/* <RightSidebar /> */}
       </div>
     </div>
   );

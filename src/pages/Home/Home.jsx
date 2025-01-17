@@ -1,8 +1,8 @@
 import React from 'react'
-import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
-import HomeMainbar from '../../components/HomeMainbar/HomeMainbar'
-import RightSidebar from '../../components/RightSidebar/RightSidebar'
 import '../../App.css'
+import HomeMainbar from '../../components/HomeMainbar/HomeMainbar'
+import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
+// import RightSidebar from '../../components/RightSidebar/RightSidebar'
 
 const Home = () => {
   return (
@@ -10,7 +10,7 @@ const Home = () => {
       <LeftSidebar />
       <div className='home-container-2'>
         <HomeMainbar />
-        <RightSidebar />
+        {/* <RightSidebar /> */}
       </div>
     </div>
   )

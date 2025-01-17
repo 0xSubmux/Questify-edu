@@ -302,7 +302,7 @@ const QuestionsDetails = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen mt-5">
       {questionsList.data === null ? (
         <Loader />
       ) : (
