@@ -1,9 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 import "./HomeMainbar.css";
 import QuestionList from "./QuestionList";
-import { useSelector } from "react-redux";
-import Loader from "../Loader/Loader";
 
 
 const HomeMainbar = () => {
@@ -34,7 +34,7 @@ const HomeMainbar = () => {
           Ask Question
         </button>
       </div>
-      <div>
+      <div className="px-3">
         {questionsList.data === null ? (
           <Loader />
         ) : (
