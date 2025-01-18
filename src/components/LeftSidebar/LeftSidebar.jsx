@@ -65,8 +65,8 @@ import Globe from "../../assets/Globe.svg";
 
 const LeftSidebar = () => {
   return (
-    <div className="w-64 bg-white text-gray-800 border-r border-gray-200 min-h-screen lg:block hidden sm:hidden">
-      <nav className="flex flex-col p-4">
+    <div className="w-64 bg-white text-gray-800 border-r border-gray-200 min-h-screen lg:block hidden sm:hidden mt-2">
+      <nav className="flex flex-col p-4 mt-5">
         {/* Home */}
         <NavLink
           to="/"
