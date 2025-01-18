@@ -1,29 +1,127 @@
-import React, { useEffect} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import toast from 'react-hot-toast'
-import decode from "jwt-decode";
+// import React, { useEffect} from 'react'
+// import { Link, useNavigate } from 'react-router-dom'
+// import { useSelector, useDispatch } from 'react-redux'
+// import toast from 'react-hot-toast'
+// import decode from "jwt-decode";
 
-import Avatar from '../Avatar/Avatar'
-import { setCurrentUser } from '../../actions/currentUser'
+// import Avatar from '../Avatar/Avatar'
+// import { setCurrentUser } from '../../actions/currentUser'
 
-import logo from '../../assets/logo.png'
-import search from '../../assets/search-solid.svg'
-import bars from "../../assets/bars-solid.svg";
-import './Navbar.css'
+// import logo from '../../assets/logo.png'
+// import search from '../../assets/search-solid.svg'
+// import bars from "../../assets/bars-solid.svg";
+// import './Navbar.css'
 
+
+// const Navbar = ({ setIsOpen }) => {
+//   const dispatch = useDispatch()
+//   const navigate = useNavigate()
+//   const User = useSelector((state) => (state.currentUserReducer))
+
+//   const handleLogout = () => {
+//     dispatch({type: 'LOGOUT'})
+//     toast.success('Logged out successfully')
+//     navigate('/')
+//     dispatch(setCurrentUser(null))
+//   }
+
+//   useEffect(() => {
+//     const token = User?.token;
+//     if (token) {
+//       const decodedToken = decode(token);
+//       if (decodedToken.exp * 1000 < new Date().getTime()) {
+//         handleLogout();
+//       }
+//     }
+//     dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
+//   // eslint-disable-next-line
+//   }, [User?.token, dispatch])
+
+
+//   return (
+//     <nav className="main-nav">
+//       <div className="navbar">
+//         <button className="slide-in-icon">
+//           <img src={bars} alt="bars" width="15" />
+//         </button>
+//         <div className="navbar-1">
+//           <Link to="/" className="nav-item nav-logo">
+//             <img src={logo} alt="logo" />
+//           </Link>
+//           <Link className="nav-item nav-btn res-nav" 
+//             onClick={() => setIsOpen(prev => !prev)}
+//           >
+//               Chatbot
+//             </Link>
+//             <Link to="/" className="nav-item nav-btn res-nav">
+//               Community
+//             </Link>
+//         </div>
+//         <div className="navbar-2">
+//           <form>
+//             <input type="text" placeholder="   Search..." />
+//             <img src={search} alt="search" width="18" className="search-icon" />
+//           </form>
+//           {
+//             User === null ? (
+//               <Link to={'/Auth'} className='nav-item nav-links'>
+//                 Log In
+//               </Link>
+//             ) : (
+//               <>
+//                 <Avatar
+//                   backgroundColor="#009dff"
+//                   px="10px"
+//                   py="7px"
+//                   borderRadius="50%"
+//                   color="white"
+//                 >
+//                   <Link
+//                     to={`/Users/${User?.result?._id}`}
+//                     style={{
+//                       color: "white", textDecoration: "none"
+//                     }}
+//                   >
+//                     {User.result.name.charAt(0).toUpperCase()}
+//                   </Link>
+//                 </Avatar>
+//                 <button className='nav-item nav-links' onClick={handleLogout}>Log Out</button>
+//               </>
+//             )
+//           }
+//         </div>
+//       </div>
+//     </nav>
+//   )
+// }
+
+// export default Navbar
+
+
+import decode from 'jwt-decode';
+import React, { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { setCurrentUser } from '../../actions/currentUser';
+import Avatar from '../Avatar/Avatar';
+
+import bars from '../../assets/bars-solid.svg';
+import logo from '../../assets/logo.png';
+import search from '../../assets/search-solid.svg';
 
 const Navbar = ({ setIsOpen }) => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const User = useSelector((state) => (state.currentUserReducer))
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const User = useSelector((state) => state.currentUserReducer);
 
   const handleLogout = () => {
-    dispatch({type: 'LOGOUT'})
-    toast.success('Logged out successfully')
-    navigate('/')
-    dispatch(setCurrentUser(null))
-  }
+    dispatch({ type: 'LOGOUT' });
+    toast.success('Logged out successfully');
+    navigate('/');
+    dispatch(setCurrentUser(null));
+  };
 
   useEffect(() => {
     const token = User?.token;
@@ -33,66 +131,83 @@ const Navbar = ({ setIsOpen }) => {
         handleLogout();
       }
     }
-    dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
-  // eslint-disable-next-line
-  }, [User?.token, dispatch])
-  
+    dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))));
+    // eslint-disable-next-line
+  }, [User?.token, dispatch]);
 
   return (
-    <nav className="main-nav">
-      <div className="navbar">
-        <button className="slide-in-icon">
-          <img src={bars} alt="bars" width="15" />
+    <nav className="bg-white shadow-md">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <button
+          className="lg:hidden p-2"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <img src={bars} alt="Menu" className="w-6 h-6" />
         </button>
-        <div className="navbar-1">
-          <Link to="/" className="nav-item nav-logo">
-            <img src={logo} alt="logo" />
+        <div className="flex items-center space-x-4">
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="logo" className="h-8" />
           </Link>
-          <Link className="nav-item nav-btn res-nav" 
-            onClick={() => setIsOpen(prev => !prev)}
+          <Link
+            className="hidden lg:block text-sm text-gray-700 hover:text-blue-500 transition duration-200"
+            to="/"
           >
-              Chatbot
-            </Link>
-            <Link to="/" className="nav-item nav-btn res-nav">
-              Community
-            </Link>
+            Community
+          </Link>
+          <button
+            className="hidden lg:block text-sm text-gray-700 hover:text-blue-500 transition duration-200"
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            Chatbot
+          </button>
         </div>
-        <div className="navbar-2">
-          <form>
-            <input type="text" placeholder="   Search..." />
-            <img src={search} alt="search" width="18" className="search-icon" />
+        <div className="flex items-center space-x-4">
+          <form className="hidden lg:flex items-center bg-gray-100 rounded-full px-3 py-1">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="bg-transparent text-sm text-gray-600 focus:outline-none"
+            />
+            <img src={search} alt="Search" className="w-4 h-4 ml-2" />
           </form>
-          {
-            User === null ? (
-              <Link to={'/Auth'} className='nav-item nav-links'>
-                Log In
-              </Link>
-            ) : (
-              <>
-                <Avatar
-                  backgroundColor="#009dff"
-                  px="10px"
-                  py="7px"
-                  borderRadius="50%"
-                  color="white"
+          {User === null ? (
+            <Link
+              to="/Auth"
+              className="text-sm text-blue-500 hover:text-blue-600 transition duration-200"
+            >
+              Log In
+            </Link>
+          ) : (
+            <>
+              <Avatar
+                backgroundColor="#009dff"
+                px="10px"
+                py="7px"
+                borderRadius="50%"
+                color="white"
+              >
+                <Link
+                  to={`/Users/${User?.result?._id}`}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                  }}
                 >
-                  <Link
-                    to={`/Users/${User?.result?._id}`}
-                    style={{
-                      color: "white", textDecoration: "none"
-                    }}
-                  >
-                    {User.result.name.charAt(0).toUpperCase()}
-                  </Link>
-                </Avatar>
-                <button className='nav-item nav-links' onClick={handleLogout}>Log Out</button>
-              </>
-            )
-          }
+                  {User.result.name.charAt(0).toUpperCase()}
+                </Link>
+              </Avatar>
+              <button
+                className="text-sm text-red-500 hover:text-red-600 transition duration-200"
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
