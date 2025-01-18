@@ -342,8 +342,8 @@ const QuestionsDetails = () => {
                       <div className="flex justify-between items-center mt-4">
                         <div className="flex gap-4">
                           <button className="text-blue-500 hover:underline  inline-flex items-center" onClick={handleShare}>
-                            Share
                             <RiShareForwardFill />
+                            Share
                           </button>
                           {User?.result._id === question.userId && (
                             <button className="text-red-500 hover:underline" onClick={handleDelete}>
