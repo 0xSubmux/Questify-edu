@@ -311,7 +311,7 @@ const QuestionsDetails = () => {
             .filter((question) => question._id === id)
             .map((question) => (
               <div key={question._id}>
-                <section className="p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+                <section className="p-6 bg-white border m- border-gray-300 rounded-lg shadow-md">
                   <h1 className="text-2xl font-semibold text-gray-800">{question.questionTitle}</h1>
                   <div className="flex gap-4 mt-4">
                     <div className="flex flex-row items-center">
