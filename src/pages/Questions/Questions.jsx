@@ -6,7 +6,7 @@ import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
 
 const Questions = () => {
   return (
-    <div className='home-container-1'>
+    <div className='home-container-1 '>
       <LeftSidebar />
       <div className='home-container-2'>
         <HomeMainbar />
