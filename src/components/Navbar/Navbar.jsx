@@ -327,7 +327,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Navigation Menu
       {isNavOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
           <div className="absolute top-0 left-0 w-3/4 bg-white h-full shadow-md flex flex-col p-4">
@@ -367,7 +367,58 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
+      )} */}
+
+      {/* Mobile Navigation Menu */}
+      {isNavOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
+          <div className="absolute top-0 left-0 w-4/5 bg-white h-full shadow-lg rounded-r-lg p-6 flex flex-col">
+            {/* Close Button */}
+            <button
+              className="self-end text-gray-600 hover:text-black mb-6"
+              onClick={() => setIsNavOpen(false)}
+            >
+              <IoClose className="w-6 h-6" />
+            </button>
+
+            {/* Links */}
+            <div className="flex flex-col space-y-6">
+              <Link
+                to="/"
+                className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-300"
+                onClick={() => setIsNavOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                to="/Questions"
+                className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-300"
+                onClick={() => setIsNavOpen(false)}
+              >
+                Questions
+              </Link>
+              <Link
+                to="/Tags"
+                className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-300"
+                onClick={() => setIsNavOpen(false)}
+              >
+                Tags
+              </Link>
+              <Link
+                to="/Users"
+                className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-300"
+                onClick={() => setIsNavOpen(false)}
+              >
+                Users
+              </Link>
+            </div>
+
+            {/* Add some extra padding or space at the bottom for better spacing */}
+            <div className="flex-grow" />
+          </div>
+        </div>
       )}
+
     </nav>
   );
 };
