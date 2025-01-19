@@ -1,4 +1,4 @@
-import HTMLReactParser from "html-react-parser";
+// import HTMLReactParser from "html-react-parser";
 import { Link } from "react-router-dom";
 
 const ProfileBio = ({ currentProfile }) => {
@@ -24,7 +24,7 @@ const ProfileBio = ({ currentProfile }) => {
         {currentProfile?.about ? (
           <>
             <h4>About</h4>
-            <p>{HTMLReactParser(currentProfile?.about)}</p>
+            {/* <p>{HTMLReactParser(currentProfile?.about)}</p> */}
           </>
         ) : (
           <p>No bio found</p>
