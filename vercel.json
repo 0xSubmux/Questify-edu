@@ -1,9 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "package.json"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
