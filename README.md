@@ -1,6 +1,6 @@
 # Questify
 
-Questify is a blockchain-based community platform where users can ask and answer questions in various science and technology categories. The platform incentivizes knowledge sharing by rewarding users with tokens for receiving likes on their answers.
+Questify is a blockchain-based community platform where users can ask and answer questions in various science and technology categories. The platform incentivize knowledge sharing by rewarding users with tokens for receiving likes on their answers.
 
 ## Features
 
@@ -22,7 +22,7 @@ Questify is a blockchain-based community platform where users can ask and answer
 1. **Clone the Project:**
 
    ```bash
-   git clone https://github.com/kunaldhongade/Questify
+   git clone https://github.com/0xsubmux/Questify-edu
    cd Questify
    ```
 
@@ -30,7 +30,7 @@ Questify is a blockchain-based community platform where users can ask and answer
 
    - Navigate to the `client` and `server` folders separately and install the required dependencies using the command:
      ```bash
-     npm install
+     yarn install
      ```
 
 3. **Configure Environment Variables:**
@@ -47,12 +47,12 @@ Questify is a blockchain-based community platform where users can ask and answer
    - Start the backend server:
      ```bash
      cd server
-     npm start
+     yarn start
      ```
    - Start the frontend application:
      ```bash
      cd client
-     npm start
+     yarn start
      ```
 
 ### Give it a Star if Helpful!

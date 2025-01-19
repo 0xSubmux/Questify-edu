@@ -1,4 +1,4 @@
-import decode from "jwt-decode";
+// import decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,12 +27,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = User?.token;
-    if (token) {
-      const decodedToken = decode(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) {
-        handleLogout();
-      }
-    }
+    // if (token) {
+    //   const decodedToken = decode(token);
+    //   if (decodedToken.exp * 1000 < new Date().getTime()) {
+    //     handleLogout();
+    //   }
+    // }
     dispatch(setCurrentUser(JSON.parse(localStorage.getItem("Profile"))));
     // eslint-disable-next-line
   }, [User?.token, dispatch]);
