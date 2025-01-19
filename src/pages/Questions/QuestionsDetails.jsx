@@ -3,7 +3,7 @@ import MDEditor from '@uiw/react-md-editor';
 import "@uiw/react-md-editor/markdown-editor.css";
 import copy from "copy-to-clipboard";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BiSolidDownvote, BiSolidUpvote } from "react-icons/bi";
@@ -87,6 +87,7 @@ const QuestionsDetails = () => {
     if (window.innerWidth < 768) {
       setIsMobile(true);
     }
+    window.scrollTo(0, 0);
   }, []);
 
   return (
