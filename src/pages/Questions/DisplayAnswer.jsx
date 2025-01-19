@@ -2,7 +2,6 @@ import "@uiw/react-markdown-preview/markdown.css";
 import MDEditor from '@uiw/react-md-editor';
 import "@uiw/react-md-editor/markdown-editor.css";
 import moment from 'moment';
-import React from 'react';
 import toast from 'react-hot-toast';
 import { TfiSharethis } from "react-icons/tfi";
 import { useDispatch, useSelector } from 'react-redux';
