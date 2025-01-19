@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&family=Pacifico&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,4 +19,9 @@ body {
 
 * {
   font-family: 'Roboto', sans-serif;
+}
+
+.questify-logo {
+  font-family: "Pacifico", cursive;
+  font-weight: 500;
 }

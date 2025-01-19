@@ -6,12 +6,30 @@ import AllRoutes from "./AllRoutes";
 import "./App.css";
 import { fetchAllQuestions } from "./actions/question";
 import { fetchAllUsers } from "./actions/users";
-// import Chatbot from "./components/Chatbot/Chatbot";
 import Navbar from "./components/Navbar/Navbar";
 
+import { createAppKit } from '@reown/appkit/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { metadata, networks, projectId, wagmiAdapter } from './config';
+
+
+const queryClient = new QueryClient()
+
+const generalConfig = {
+  projectId,
+  metadata,
+  networks
+}
+
+// Create modal
+createAppKit({
+  adapters: [wagmiAdapter],
+  ...generalConfig,
+})
+
+
 function App() {
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isVerified, setIsVerified] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,26 +39,15 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Toaster />
-        <Navbar />
-        {/* <Navbar setIsOpen={setIsOpen} /> */}
-        <AllRoutes />
-        {/* {isOpen ? (
-          <Chatbot
-            setIsOpen={setIsOpen}
-            isVerified={isVerified}
-            setIsVerified={setIsVerified}
-          />
-        ) : (
-          <button
-            className="open-chatbot bo"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            Have Doubts? Click here!
-          </button>
-        )} */}
-      </Router>
+      <WagmiProvider config={wagmiAdapter.wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <Toaster />
+            <Navbar />
+            <AllRoutes />
+          </Router>
+        </QueryClientProvider>
+      </WagmiProvider>
     </div>
   );
 }
