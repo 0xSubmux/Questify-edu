@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "package.json"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+}
